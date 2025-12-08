@@ -1,0 +1,92 @@
+
+import java.util.Arrays;
+import software.amazon.awssdk.services.ec2.ec2Client;
+import software.amazon.awssdk.services.ec2.model.*;
+
+CreateVpcRequest.builder()
+                .cidrBlock("10.0.0.0/16")
+                .amazonProvidedIpv6CidrBlock(false)
+                .instanceTenancy("default")
+                .tagSpecifications(Arrays.asList(resourceType("vpc").tags(Arrays.asList(key("Name").value("bastion-vpc")))))
+                .build();
+
+ec2Client.createVpc(request);
+
+ModifyVpcAttributeRequest.builder()
+                .vpcId("preview-vpc-1234")
+                .enableDnsHostnames(value(true))
+                .build();
+
+ec2Client.modifyVpcAttribute(request);
+
+DescribeVpcsRequest.builder()
+                .vpcIds(Arrays.asList("preview-vpc-1234"))
+                .build();
+
+ec2Client.describeVpcs(request);
+
+CreateVpcEndpointRequest.builder()
+                .vpcId("preview-vpc-1234")
+                .serviceName("com.amazonaws.us-east-1.s3")
+                .tagSpecifications(Arrays.asList(resourceType("vpc-endpoint").tags(Arrays.asList(key("Name").value("bastion-vpce-s3")))))
+                .build();
+
+ec2Client.createVpcEndpoint(request);
+
+CreateSubnetRequest.builder()
+                .vpcId("preview-vpc-1234")
+                .cidrBlock("10.0.144.0/20")
+                .availabilityZone("us-east-1b")
+                .ipv6CidrBlock(undefined)
+                .tagSpecifications(Arrays.asList(resourceType("subnet").tags(Arrays.asList(key("Name").value("bastion-subnet-private2-us-east-1b")))))
+                .build();
+
+ec2Client.createSubnet(request);
+
+CreateInternetGatewayRequest.builder()
+                .tagSpecifications(Arrays.asList(resourceType("internet-gateway").tags(Arrays.asList(key("Name").value("bastion-igw")))))
+                .build();
+
+ec2Client.createInternetGateway(request);
+
+AttachInternetGatewayRequest.builder()
+                .internetGatewayId("preview-igw-1234")
+                .vpcId("preview-vpc-1234")
+                .build();
+
+ec2Client.attachInternetGateway(request);
+
+CreateRouteTableRequest.builder()
+                .vpcId("preview-vpc-1234")
+                .tagSpecifications(Arrays.asList(resourceType("route-table").tags(Arrays.asList(key("Name").value("bastion-rtb-private2-us-east-1b")))))
+                .build();
+
+ec2Client.createRouteTable(request);
+
+CreateRouteRequest.builder()
+                .routeTableId("preview-rtb-public-0")
+                .destinationCidrBlock("0.0.0.0/0")
+                .gatewayId("preview-igw-1234")
+                .build();
+
+ec2Client.createRoute(request);
+
+AssociateRouteTableRequest.builder()
+                .routeTableId("preview-rtb-private-2")
+                .subnetId("preview-subnet-private-3")
+                .build();
+
+ec2Client.associateRouteTable(request);
+
+DescribeRouteTablesRequest.builder()
+                .routeTableIds(Arrays.asList(undefined, undefined, "preview-rtb-private-1", "preview-rtb-private-2"))
+                .build();
+
+ec2Client.describeRouteTables(request);
+
+ModifyVpcEndpointRequest.builder()
+                .vpcEndpointId("preview-vpce-1234")
+                .addRouteTableIds(Arrays.asList("preview-rtb-private-1", "preview-rtb-private-2"))
+                .build();
+
+ec2Client.modifyVpcEndpoint(request);
