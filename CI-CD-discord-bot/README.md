@@ -1,30 +1,40 @@
-# Discord Bot Project
+# Discord Bot on AWS (ECS + CI/CD)
+
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![GitLab CI](https://img.shields.io/badge/GitLab%20CI-FCA121?style=for-the-badge&logo=gitlab&logoColor=white)
+
+---
 
 ## Overview
-<!-- Brief description of your bot and its purpose -->
+This project is a **cloud-hosted Discord bot built with JavaScript using the `discord.js` framework**, deployed on **AWS ECS (Fargate)** with a **fully automated CI/CD pipeline**.
+
+The bot responds to commands, slash commands, and can fetch images from external APIs. Every commit pushed to the `main` branch triggers a **GitLab CI/CD pipeline** that builds a Docker image, pushes it to **Amazon ECR**, and updates the running ECS service via **AWS CLI**.
+
+This project demonstrates **AWS container orchestration, CI/CD automation, and production-ready DevOps practices**.
+
+---
 
 ## Features
-- <!-- Feature 1 -->
-- <!-- Feature 2 -->
-- <!-- Feature 3 -->
+- 🤖 Discord bot built with **discord.js**
+- 💬 Supports message commands and slash commands
+- 🌐 Fetches images from external APIs
+- 🐳 Dockerized for consistent deployments
+- 🔄 Fully automated CI/CD on every commit to `main`
+- 🚀 Runs on **Amazon ECS Fargate**
+- 📦 Container images stored in **Amazon ECR**
+- 📜 Application logs available via **CloudWatch Logs**
+
+---
 
 ## Architecture
-<!-- Optional diagram or explanation of how your bot is structured and deployed -->
+**Deployment flow:**
 
-## Tech Stack
-- Bot: <!-- Language / Framework -->
-- Containerization: <!-- Docker -->
-- Cloud: <!-- AWS services used -->
-- CI/CD: <!-- GitHub Actions / CodePipeline / etc. -->
+1. Push code to the `main` branch in GitLab  
+2. GitLab CI pipeline triggers automatically  
+3. Docker image built via `buildspec.yml`  
+4. Image tagged and pushed to Amazon ECR  
+5. ECS task definition updated using AWS CLI  
+6. ECS Fargate service pulls the new image and restarts  
 
-## Installation / Setup
-<!-- Instructions to run locally or deploy -->
-```bash
-# Clone repo
-git clone <repo-url>
-
-# Install dependencies
-<commands>
-
-# Run bot
-<commands>
